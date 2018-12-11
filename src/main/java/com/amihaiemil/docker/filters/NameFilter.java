@@ -18,6 +18,6 @@ public class NameFilter implements Filter {
 
     @Override
     public Collection<String> values() {
-        return Collections.singletonList(name);
+        return Collections.singletonList(this.name);
     }
 }

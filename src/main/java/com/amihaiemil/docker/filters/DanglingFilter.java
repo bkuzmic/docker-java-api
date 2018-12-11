@@ -5,9 +5,9 @@ import java.util.Collections;
 
 public class DanglingFilter implements Filter {
 
-    private final Boolean dangling;
+    private final boolean dangling;
 
-    public DanglingFilter(Boolean dangling) {
+    public DanglingFilter(boolean dangling) {
         this.dangling = dangling;
     }
 
@@ -18,6 +18,6 @@ public class DanglingFilter implements Filter {
 
     @Override
     public Collection<String> values() {
-        return Collections.singletonList(this.dangling.toString());
+        return Collections.singletonList(String.valueOf(this.dangling));
     }
 }

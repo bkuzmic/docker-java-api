@@ -2,6 +2,7 @@ package com.amihaiemil.docker.filters;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public class LabelFilter implements Filter {
 
     @Override
     public Collection<String> values() {
+        if (this.values == null) {
+            return Collections.singletonList(this.key);
+        }
         return this.values.stream()
             .map(v -> String.format("%s:%s", this.key, v))
             .collect(Collectors.toList());

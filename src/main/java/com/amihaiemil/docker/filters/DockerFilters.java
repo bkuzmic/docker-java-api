@@ -1,11 +1,11 @@
 package com.amihaiemil.docker.filters;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 
 public class DockerFilters {
 
@@ -24,7 +24,7 @@ public class DockerFilters {
                     final JsonArrayBuilder array = Json.createArrayBuilder();
                     f.values().forEach(array::add);
                     json.add(f.name(), array);
-                } else {
+                } else if (f.values().size() == 1){
                     json.add(f.name(), f.values().iterator().next());
                 }
             }
