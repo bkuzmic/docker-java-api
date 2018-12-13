@@ -1,13 +1,24 @@
 package com.amihaiemil.docker.filters;
 
-import java.util.Collection;
-import java.util.Collections;
+import javax.json.JsonObjectBuilder;
 
-public class NameFilter implements Filter {
+/**
+ * Name filter.
+ * @author Boris Kuzmic (boris.kuzmic@gmail.com)
+ * @since 0.0.7
+ */
+public final class NameFilter implements Filter {
 
+    /**
+     * Name of Docker object (container, volume, image).
+     */
     private final String name;
 
-    public NameFilter(String name) {
+    /**
+     * Ctor.
+     * @param name Name of Docker object.
+     */
+    public NameFilter(final String name) {
         this.name = name;
     }
 
@@ -17,7 +28,7 @@ public class NameFilter implements Filter {
     }
 
     @Override
-    public Collection<String> values() {
-        return Collections.singletonList(this.name);
+    public void addAsJson(final JsonObjectBuilder builder) {
+        builder.add(this.name(), this.name);
     }
 }

@@ -1,34 +1,36 @@
 package com.amihaiemil.docker.filters;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
-public class DockerFilters {
+/**
+ * Set of Docker filters for sending to server REST API.
+ * @author Boris Kuzmic (boris.kuzmic@gmail.com)
+ * @since 0.0.7
+ */
+public final class DockerFilters {
 
+    /**
+     * Set of Filter objects.
+     */
     private final Set<Filter> filters;
 
-    public DockerFilters(Filter... filters) {
-        this.filters = new HashSet<>();
-        this.filters.addAll(Arrays.asList(filters));
+    /**
+     * Ctor.
+     * @param filters Set of Filter objects.
+     */
+    public DockerFilters(final Set<Filter> filters) {
+        this.filters = filters;
     }
 
+    /**
+     * Represents Set of Filters as Json String.
+     * @return Json String.
+     */
     public String toJson() {
         JsonObjectBuilder json = Json.createObjectBuilder();
-        this.filters.forEach(
-            f -> {
-                if (f.values().size() > 1) {
-                    final JsonArrayBuilder array = Json.createArrayBuilder();
-                    f.values().forEach(array::add);
-                    json.add(f.name(), array);
-                } else if (f.values().size() == 1){
-                    json.add(f.name(), f.values().iterator().next());
-                }
-            }
-        );
+        this.filters.forEach(f -> f.addAsJson(json));
         return json.build().toString();
     }
 

@@ -1,13 +1,24 @@
 package com.amihaiemil.docker.filters;
 
-import java.util.Collection;
-import java.util.Collections;
+import javax.json.JsonObjectBuilder;
 
-public class DanglingFilter implements Filter {
+/**
+ * Dangling filter.
+ * @author Boris Kuzmic (boris.kuzmic@gmail.com)
+ * @since 0.0.7
+ */
+public final class DanglingFilter implements Filter {
 
+    /**
+     * Flag if Docker object is dangling.
+     */
     private final boolean dangling;
 
-    public DanglingFilter(boolean dangling) {
+    /**
+     * Ctor.
+     * @param dangling Flag if Docker object is dangling.
+     */
+    public DanglingFilter(final boolean dangling) {
         this.dangling = dangling;
     }
 
@@ -17,7 +28,8 @@ public class DanglingFilter implements Filter {
     }
 
     @Override
-    public Collection<String> values() {
-        return Collections.singletonList(String.valueOf(this.dangling));
+    public void addAsJson(final JsonObjectBuilder builder) {
+        builder.add(this.name(), String.valueOf(this.dangling));
     }
+
 }

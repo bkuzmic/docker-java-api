@@ -1,21 +1,42 @@
 package com.amihaiemil.docker.filters;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 
-public class LabelFilter implements Filter {
+/**
+ * Label filter.
+ * @author Boris Kuzmic (boris.kuzmic@gmail.com)
+ * @since 0.0.7
+ */
+public final class LabelFilter implements Filter {
 
+    /**
+     * Label key.
+     */
     private final String key;
+
+    /**
+     * Label values.
+     */
     private List<String> values;
 
-    public LabelFilter(String key) {
+    /**
+     * Ctor. with key.
+     * @param key Label key.
+     */
+    public LabelFilter(final String key) {
         this.key = key;
     }
 
-    public LabelFilter(String key, String... values) {
+    /**
+     * Ctor. with key and values.
+     * @param key Label key.
+     * @param values Label values.
+     */
+    public LabelFilter(final String key, final String... values) {
         this(key);
         this.values = Arrays.asList(values);
     }
@@ -26,12 +47,15 @@ public class LabelFilter implements Filter {
     }
 
     @Override
-    public Collection<String> values() {
-        if (this.values == null) {
-            return Collections.singletonList(this.key);
+    public void addAsJson(final JsonObjectBuilder builder) {
+        if (this.values!=null && !this.values.isEmpty()) {
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+            this.values.forEach(
+                v -> arrayBuilder.add(String.format("%s:%s", this.key, v))
+            );
+            builder.add(this.name(), arrayBuilder);
+        } else {
+            builder.add(this.name(), this.key);
         }
-        return this.values.stream()
-            .map(v -> String.format("%s:%s", this.key, v))
-            .collect(Collectors.toList());
     }
 }

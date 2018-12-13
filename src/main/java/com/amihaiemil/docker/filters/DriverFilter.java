@@ -1,13 +1,24 @@
 package com.amihaiemil.docker.filters;
 
-import java.util.Collection;
-import java.util.Collections;
+import javax.json.JsonObjectBuilder;
 
-public class DriverFilter implements Filter {
+/**
+ * Driver filter.
+ * @author Boris Kuzmic (boris.kuzmic@gmail.com)
+ * @since 0.0.7
+ */
+public final class DriverFilter implements Filter {
 
+    /**
+     * Name of the driver.
+     */
     private final String driverName;
 
-    public DriverFilter(String driverName) {
+    /**
+     * Ctor.
+     * @param driverName Name of the driver.
+     */
+    public DriverFilter(final String driverName) {
         this.driverName = driverName;
     }
 
@@ -17,7 +28,7 @@ public class DriverFilter implements Filter {
     }
 
     @Override
-    public Collection<String> values() {
-        return Collections.singletonList(this.driverName);
+    public void addAsJson(final JsonObjectBuilder builder) {
+        builder.add(this.name(), this.driverName);
     }
 }
